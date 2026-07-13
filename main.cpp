@@ -37,7 +37,7 @@ void Function_receive(uint16_t port, bool receive_condtion) {
 
 void print_help() {
 
-    std::printf("\n NAME is help menu: \n \n -ip --> IP Target to Send Files \n -port --> PORT Target to Send Files \n -sync --> Sync Directories Files \n -send_all --> Send All Files in The Directories \n -receive --> Endable Receiver Mode \n \n Written by Unc Frank \n");
+    std::printf("\n 2PUSH help menu: \n \n -ip --> IP Target to Send Files \n -port --> PORT Target to Send Files \n -sync --> Sync Directories Files \n -send_all --> Send All Files in The Directories \n -receive --> Endable Receiver Mode \n \n Written by Unc Frank \n");
 
 
     return;
