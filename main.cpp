@@ -4,6 +4,7 @@
     - add key config file to RC4
     - add send one file 
     - improve handel delete 
+    - 
 */
 
 
@@ -60,14 +61,18 @@ int main (int argc, char *argv[]) {
     bool port_condation = false;
     for (int i = 0; i < argc; i++ ) {
         if (std::string(argv[i]) == "-sync" ) {
-            path = argv[i+1];
-            sync = true;
+            if (i + 1 < argc) {
+                path = argv[i+1];
+                sync = true;
+                i++;
+            }
         }
         if (std::string(argv[i]) == "-send_all" ) {
-            path = argv[i+1];
-            send_all = true;
+            if (i + 1 < argc) {
+                path = argv[i+1];
+                send_all = true;
+            }
         } 
-        
         if(std::string(argv[i]) == "-ip") {
                 ip = argv[i+1];
                 ip_condation = true;
@@ -81,8 +86,10 @@ int main (int argc, char *argv[]) {
                         print_help();
         }
         if (std::string(argv[i]) == "-receive") {
+            if (i + 1 < argc) {
                 ip = argv[i+1];
                 receive = true;
+            }     
         }  
     }
     
