@@ -68,9 +68,19 @@ void client_tcp_send_file(std::string filePath, char *buffer, int buffer_size, b
     Send_file.seekg(0, std::ios::beg);
 
     std::filesystem::path path(filePath);
-    std::filesystem::path relativePath = std::filesystem::relative(path, std::filesystem::current_path());
+
+    std::string FileName;
+    try {
+        std::filesystem::path relativePath = std::filesystem::relative(path, std::filesystem::current_path());
     
-    std::string FileName = relativePath.string();
+        FileName = relativePath.string();
+    } catch (...) {
+        FileName = path.filename().string();
+    }
+
+    if (FileName.empty()) {
+        FileName = "Unknown_File";
+    }
 
     uint64_t FileNamelength = FileName.length();
 

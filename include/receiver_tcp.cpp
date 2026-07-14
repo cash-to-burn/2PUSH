@@ -95,19 +95,30 @@ void receiver_tcp_receive_file(char *buffer, int buffer_size, bool LOGMODE) {
         uint64_t filesize = be64toh(netfilesize);
 
         std::filesystem::path path(filename);
+        
+
         if (path.is_absolute()) {
             path = path.relative_path();
         }
 
         std::filesystem::path finalpath = StripThePath(path);
+
+        if (finalpath.empty()) {
+            finalpath = path.filename();
+        }
+
         if(finalpath.has_parent_path()) {
-            std::filesystem::create_directories(finalpath.parent_path());
+            std::filesystem::path parent = finalpath.parent_path();
+            if (std::filesystem::exists(parent) && !std::filesystem::is_directory(parent)) {
+                std::filesystem::remove(parent);
+            }
+            std::filesystem::create_directories(parent);
         }
         
 
         std::ofstream file(finalpath, std::ios::binary);
         if(!file.is_open()) {
-            std::cerr << "[E] ERROR in ofstream ->" << filename << "\n";
+            std::cerr << "[E] ERROR in ofstream ->" << finalpath.string() << "\n";
             return;
         }
 

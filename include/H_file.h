@@ -186,11 +186,11 @@ void get_changes(std::string Fpath) {
             file.SFiles.push_back(std::filesystem::file_size(Fpath));
     }        
 
-    if (!std::filesystem::is_regular_file(Fpath)) {
+    if (std::filesystem::is_directory(Fpath)) {
         try {
         for (const auto i : std::filesystem::recursive_directory_iterator(Fpath)) {
         
-        
+        if (!std::filesystem::is_regular_file(i.path())) continue;
         
         if (i.path().string() == "./.f_changes.txt") continue;
 
