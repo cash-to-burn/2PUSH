@@ -180,14 +180,26 @@ void save_changes(std::vector<std::string> files, std::vector<uintmax_t> size) {
 }
 
 void get_changes(std::string Fpath) {
-    for (const auto i : std::filesystem::recursive_directory_iterator(Fpath)) {
+
+    if (std::filesystem::is_regular_file(Fpath)) {
+            file.NFiles.push_back(std::filesystem::path(Fpath)); 
+            file.SFiles.push_back(std::filesystem::file_size(Fpath));
+    }        
+
+    if (!std::filesystem::is_regular_file(Fpath)) {
+        try {
+        for (const auto i : std::filesystem::recursive_directory_iterator(Fpath)) {
         
-        if (!std::filesystem::is_regular_file(i.status())) continue;
+        
         
         if (i.path().string() == "./.f_changes.txt") continue;
 
-        file.NFiles.push_back(std::filesystem::path(i.path().string())); 
-        file.SFiles.push_back(std::filesystem::file_size(i.path()));
+            file.NFiles.push_back(std::filesystem::path(i.path().string())); 
+            file.SFiles.push_back(std::filesystem::file_size(i.path()));
         }
+    } catch (const std::filesystem::filesystem_error &e) {
+        std::cerr << "[E] Error In std::filesystem:" << e.what() << std::endl; 
+    }
+    }
+    
 }
-

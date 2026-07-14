@@ -1,10 +1,7 @@
 
 /*
     TODO:
-    - add key config file to RC4
-    - add send one file 
     - improve handel delete 
-    - 
 */
 
 
